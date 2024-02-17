@@ -6,26 +6,49 @@ namespace Mission6.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    private MovieContext _context;
+    public HomeController(MovieContext context) //Constructor
     {
-        _logger = logger;
+        _context = context;
     }
-
+    
+    
     public IActionResult Index()
     {
         return View();
     }
 
-    public IActionResult Privacy()
+    public IActionResult AboutJoel()
     {
         return View();
     }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    
+    public IActionResult MovieCollection()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return View();
     }
+    
+    [HttpPost]
+    public IActionResult MovieCollection(MovieForm movie)
+    {
+        try
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Movies.Add(movie); //Add to database
+                _context.SaveChanges(); //Save changes
+                return View("Confirmation", movie);
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+        catch (Exception e)
+        {
+            return View("Error");
+        }
+    }
+    
+    
 }
