@@ -19,14 +19,7 @@ public class MovieForm
     [Required]
     public string Rating { get; set; }
     public bool Edited { get; set; }
-    public string LentTo { get; set; }
+    public string? LentTo { get; set; }
     [MaxLength(25)]
-    public string Notes { get; set; }
-
-    public MovieForm()
-    {
-        LentTo = string.Empty;
-        Notes = string.Empty;
-
-    }
+    public string? Notes { get; set; }
 }
