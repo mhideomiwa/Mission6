@@ -1,0 +1,76 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model MovieForm
+
+@{
+    ViewData["Title"] = "Movie Collection";
+}
+
+<div>
+    <h2>Add to the Movie Collection</h2>
+    
+    <form method="post">
+        <input type="hidden" asp-for="MovieId"/>
+        
+        <label asp-for="Category">Category: </label>
+        <select asp-for="CategoryId">
+            @* <option value="" disabled="disabled" selected="selected">Select an Option</option> Future: Figure this out, throw an error when this is selected.*@
+            @foreach (Category c in ViewBag.Categories)
+            {
+                <option value="@c.CategoryId">@c.CategoryName</option>
+            }
+        </select>
+        <br/>
+        <label asp-for="Title">Title: </label>
+        <input asp-for="Title"/>
+        <br/>
+        <label asp-for="Year">Year: </label>
+        <input asp-for="Year" />
+        <br/>
+        <label asp-for="Director">Director: </label>
+        <input asp-for="Director"/>
+        <br/>
+        <label asp-for="Rating">Rating: </label>
+        <select asp-for="Rating">
+            <option value="G">G</option>
+            <option value="PG">PG</option>
+            <option value="PG-13">PG-13</option>
+            <option value="R">R</option>
+        </select>
+        <br/>
+        <label asp-for="Edited">Edited: </label>
+        <select asp-for="Edited">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select>
+        <br/>
+        <label asp-for="LentTo">Lent To: </label>
+        <input asp-for="LentTo"/>
+        <br/>
+        <label asp-for="CopiedToPlex">Copied to Plex: </label>
+        <select asp-for="CopiedToPlex">
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select>
+        <br/>
+        <label asp-for="Notes">Notes: </label>
+        <input asp-for="Notes"/>
+        <br/>
+        <br/>
+        <button type="submit" class="btn btn-outline-dark">
+            @* If this is a new movie, the words "Add movie", if it is an edit, "Save changes" *@
+            @if (Model.MovieId == 0)
+            {
+                <text>Add to Collection</text>
+            }
+            else
+            {
+                <text>Save Changes</text>
+            }
+        </button>
+    </form>
+    
+    <div asp-validation-summary="All" class="text-danger"></div>
+    
+    <a asp-controller="Home" asp-action="MovieCollection" class="btn btn-info">Back to Collection</a>
+</div>
+

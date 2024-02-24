@@ -1,44 +1,44 @@
-@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model MovieForm
-
-@{
-    ViewData["Title"] = "Movie Collection";
-}
+@model List<MovieForm>
 
 <div>
-    <h2>Add to the Movie Collection</h2>
+    <h2>Movie Collection</h2>   
     
-    <form method="post">
-        <label asp-for="Category">Category: </label>
-        <input asp-for="Category"/>
-        <br/>
-        <label asp-for="Title">Title: </label>
-        <input asp-for="Title"/>
-        <br/>
-        <label asp-for="Year">Year: </label>
-        <input asp-for="Year"/>
-        <br/>
-        <label asp-for="Director">Director: </label>
-        <input asp-for="Director"/>
-        <br/>
-        <label asp-for="Rating">Rating: </label>
-        <select asp-for="Rating">
-            <option value="G">G</option>
-            <option value="PG">PG</option>
-            <option value="PG-13">PG-13</option>
-            <option value="R">R</option>
-        </select>
-        <br/>
-        <label asp-for="Edited">Edited: </label>
-        <input asp-for="Edited"/>
-        <br/>
-        <label asp-for="LentTo">Lent To: </label>
-        <input asp-for="LentTo"/>
-        <br/>
-        <label asp-for="Notes">Notes: </label>
-        <input asp-for="Notes"/>
-        <br/>
-        <button type="submit">Add to Collection</button>
-    </form>
-</div>
+    <a asp-action="MovieForm"><div class="btn btn-outline-dark">Add Movie</div></a>
+    <br/>
+    <br/>
+    
+    <table class="table table-bordered">
+        <thead class="fw-bold">
+        <td>Category</td>
+        <td>Title</td>
+        <td>Year</td>
+        <td>Director</td>
+        <td>Rating</td>
+        <td>Edited</td>
+        <td>Lent To</td>
+        <td>CopiedToPlex</td>
+        <td>Notes</td>
+        </thead>
 
+        @foreach (var movie in Model)
+        {
+            <tbody>
+            <tr>
+                <td>@movie.Category.CategoryName</td>
+                <td>@movie.Title</td>
+                <td>@movie.Year</td>
+                <td>@movie.Director</td>
+                <td>@movie.Rating</td>
+                <td>@(movie.Edited == 0 ? "No" : "Yes")</td>
+                <td>@movie.LentTo</td>
+                <td>@(movie.CopiedToPlex == 0 ? "No" : "Yes")</td>
+                <td>@movie.Notes</td>
+
+                <td><a class="btn btn-info" asp-controller="Home" asp-action="EditMovie" asp-route-id="@movie.MovieId">Edit</a></td>
+                <td><a class="btn btn-danger" asp-controller="Home" asp-action="DeleteMovie" asp-route-id="@movie.MovieId">Delete</a></td>
+            </tr>
+            </tbody>
+        }
+
+    </table>
+</div>
